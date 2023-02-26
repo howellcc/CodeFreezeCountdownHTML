@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Code Freeze Countdown</title>
+    <style>
+      body {
+        font-family:Arial, Helvetica, sans-serif;
+      }
+      #countdowndiv {
+        text-align: center;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+      #countdowncount {
+        font-size:22em;
+      }
+      #countdowntext {
+        font-size: 1.5em;
+        margin-top: -2em;
+      }
+      #left {
+        float: left;
+      }
+      #right {
+        float: right;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="left">hello</div>
+    <div id="right">3/6/2023</div>
+    <div id="countdowndiv">
+        <div id="countdowncount"></div>
+        <div id="countdowntext">Workdays Till Code Freeze</div>
+    </div>
+    <div id="workdays"></div>
+
+    <script>
+        const codeFreezeDates = [
+            //Month is expressed as dateINDEX.  ie. Jan=0 and Dec=11
+            {cf: new Date(2023,1,3), ver: "12.930"},
+            {cf: new Date(2023,2,10), ver: "12.940"},
+            {cf: new Date(2023,3,7), ver: "12.950"},
+            {cf: new Date(2023,4,5), ver: "12.960"},
+            {cf: new Date(2023,5,9), ver: "12.970"},
+            {cf: new Date(2023,6,7), ver: "12.980"},
+            {cf: new Date(2023,7,4), ver: "12.990"},
+            {cf: new Date(2023,8,8), ver: "12.1000"},
+            {cf: new Date(2023,9,6), ver: "12.1010"},
+            {cf: new Date(2023,10,3), ver: "12.1020"},
+            {cf: new Date(2023,11,1), ver: "12.1030"},
+        ];
+
+        let today = new Date();
+        today.setHours(0,0,0,0);
+        let targetDate = new Date(2023,12,25);
+        let version = "";
+
+        let i = 0;
+        while(i<codeFreezeDates.length){
+            if(codeFreezeDates[i].cf > today){
+                targetDate = codeFreezeDates[i].cf;
+                version = codeFreezeDates[i].ver;
+                break;
+            }
+            i++;
+        }
+        
+        const diff = targetDate - today;
+        const daysLeft = Math.ceil(diff / (1000 * 60 * 60 * 24));
+
+        // display the countdown on the page
+        const countdown = document.getElementById("countdowncount");
+        countdown.innerText = daysLeft;
+
+        const left = document.getElementById("left");
+        left.innerHTML = version;
+
+        const right = document.getElementById("right");
+        right.innerHTML = targetDate.toLocaleDateString();
+
+    </script>
+  </body>
+</html>
