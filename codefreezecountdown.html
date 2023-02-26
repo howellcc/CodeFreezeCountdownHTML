@@ -57,19 +57,30 @@
         today.setHours(0,0,0,0);
         let targetDate = new Date(2023,12,25);
         let version = "";
+        let daysToSubtract = 0; 
 
         let i = 0;
         while(i<codeFreezeDates.length){
             if(codeFreezeDates[i].cf > today){
-                targetDate = codeFreezeDates[i].cf;
+                targetDate = new Date(codeFreezeDates[i].cf);
                 version = codeFreezeDates[i].ver;
                 break;
             }
             i++;
         }
+
+        let dayIterator = new Date(today);
+        while(dayIterator <= targetDate){
+          let dayOfWeek = dayIterator.getDay();
+          if(dayOfWeek == 0 || dayOfWeek == 6){
+            daysToSubtract++;
+          }
+          dayIterator.setDate(dayIterator.getDate()+1);
+        }
         
         const diff = targetDate - today;
-        const daysLeft = Math.ceil(diff / (1000 * 60 * 60 * 24));
+        console.log(daysToSubtract);
+        const daysLeft = Math.ceil(diff / (1000 * 60 * 60 * 24)) - daysToSubtract;
 
         // display the countdown on the page
         const countdown = document.getElementById("countdowncount");
